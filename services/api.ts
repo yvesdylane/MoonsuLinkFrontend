@@ -24,6 +24,21 @@ export interface User {
   phone: string
 }
 
+export interface Stats {
+  total_users: number
+  users_by_role: { buyer: number; farmer: number; admin: number }
+  total_listings: number
+  total_interests: number
+  pending_verifications: number
+  total_reports: number
+  reports_by_status: { pending: number; reviewed: number; dismissed: number }
+  total_issues: number
+  issues_by_status: { open: number; resolved: number }
+  total_alerts: number
+  listings_by_region: Record<string, number>
+  messages_last_24h: number
+}
+
 export const api = {
   login: (phone: string) =>
     request<{ status: string; message: string; phone: string }>('/api/admin/login', {
@@ -36,4 +51,7 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ phone, code }),
     }),
+
+  getStats: (token: string) =>
+    request<{ status: string; data: Stats }>('/api/admin/stats', {}, token),
 }
