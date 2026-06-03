@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-primary: #162531;
@@ -9,9 +8,9 @@
   --color-accent-hover: #7fdb5e;
   --color-accent-light: #b8f79e;
   --color-accent-dark: #5cbf34;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
+
+@variant dark (&:where(.dark, .dark *));
 
 body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;

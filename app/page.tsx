@@ -375,17 +375,14 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {['Centre', 'Littoral', 'Ouest', 'Nord', 'Sud', 'Est', 'Adamaoua', 'Nord-Ouest', 'Sud-Ouest', 'Extrême-Nord'].map((region) => (
-              <div
-                key={region}
-                className="rounded-xl border border-zinc-100 bg-white px-5 py-4 text-center dark:border-zinc-700 dark:bg-primary-light"
-              >
-                <span className="text-sm font-medium text-primary dark:text-white">
-                  {region}
-                </span>
-              </div>
-            ))}
+          <div className="mt-8 text-center">
+            <p className="text-lg text-zinc-600 dark:text-zinc-300">
+              Moonso Link operates across{' '}
+              <strong className="text-primary dark:text-white">
+                all 10 regions
+              </strong>{' '}
+              of Cameroon — from the coast to the highlands.
+            </p>
           </div>
         </div>
       </section>
