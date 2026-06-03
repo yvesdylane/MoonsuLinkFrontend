@@ -1,4 +1,4 @@
-const BASE = 'http://localhost:8080'
+const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080'
 
 async function request<T>(path: string, options: RequestInit = {}, token?: string): Promise<T> {
   const headers: Record<string, string> = {

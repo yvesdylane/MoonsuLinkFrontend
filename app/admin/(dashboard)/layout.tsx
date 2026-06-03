@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 const navLinks = [
   {
@@ -124,7 +125,7 @@ export default function DashboardLayout({
         </div>
       </div>
 
-      <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+      <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto scrollbar-none">
         {navLinks.map((link) => {
           const isActive = pathname === link.href || pathname.startsWith(link.href + '/')
           return (
@@ -155,10 +156,11 @@ export default function DashboardLayout({
         })}
       </nav>
 
-      <div className="px-6 py-6 border-t border-zinc-200 dark:border-zinc-700">
+      <div className="px-6 py-6 border-t border-zinc-200 dark:border-zinc-700 flex items-center gap-2">
+        <ThemeToggle />
         <button
           onClick={logout}
-          className="inline-flex w-full items-center justify-center rounded-2xl border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-primary-light px-4 py-3 text-sm font-medium text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-primary"
+          className="flex-1 inline-flex items-center justify-center rounded-2xl border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-primary-light px-4 py-3 text-sm font-medium text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-primary"
         >
           Sign out
         </button>
