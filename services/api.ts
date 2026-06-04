@@ -195,6 +195,38 @@ export const api = {
     request<{ status: string; message: string }>(`/api/admin/verifications/${userId}/reject`, {
       method: 'POST',
     }),
+
+  getAlerts: (params?: {
+    page?: number
+    limit?: number
+    alert_type?: string
+    region?: string
+  }) => {
+    const qs = new URLSearchParams()
+    if (params?.page) qs.set('page', String(params.page))
+    if (params?.limit) qs.set('limit', String(params.limit))
+    if (params?.alert_type) qs.set('alert_type', params.alert_type)
+    if (params?.region) qs.set('region', params.region)
+    const q = qs.toString()
+    return request<{
+      status: string
+      data: { total: number; page: number; limit: number; total_pages: number; alerts: AlertItem[] }
+    }>(`/api/admin/alerts${q ? '?' + q : ''}`)
+  },
+
+  createAlert: (data: {
+    title: string
+    description?: string
+    alert_type: string
+    region?: string
+    product_name?: string
+    source_report_id?: number | null
+    expires_at: string
+  }) =>
+    request<{ status: string; data: { alert: object; notified_count: number; whatsapp_sent: number; telegram_sent: number }; message: string }>('/api/admin/alerts', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
 }
 
 export interface ListingItem {
@@ -264,4 +296,17 @@ export interface VerificationItem {
   created_at: string
   selfie_url: string | null
   id_url: string | null
+}
+
+export interface AlertItem {
+  id: number
+  title: string
+  description: string | null
+  alert_type: string
+  region: string | null
+  product_name: string | null
+  created_by: string
+  created_by_name: string
+  created_at: string
+  expires_at: string
 }
