@@ -156,6 +156,32 @@ export const api = {
       method: 'PATCH',
       body: JSON.stringify(data),
     }),
+
+  getIssues: (params?: {
+    page?: number
+    limit?: number
+    status?: string
+    issue_type?: string
+    region?: string
+  }) => {
+    const qs = new URLSearchParams()
+    if (params?.page) qs.set('page', String(params.page))
+    if (params?.limit) qs.set('limit', String(params.limit))
+    if (params?.status) qs.set('status', params.status)
+    if (params?.issue_type) qs.set('issue_type', params.issue_type)
+    if (params?.region) qs.set('region', params.region)
+    const q = qs.toString()
+    return request<{
+      status: string
+      data: { total: number; page: number; limit: number; total_pages: number; issues: IssueItem[] }
+    }>(`/api/admin/issues${q ? '?' + q : ''}`)
+  },
+
+  updateIssue: (id: number, data: { status: string }) =>
+    request<{ status: string; message: string }>(`/api/admin/issues/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
 }
 
 export interface ListingItem {
@@ -193,4 +219,18 @@ export interface ReportItem {
   created_at: string
   updated_at: string
   user_name: string
+}
+
+export interface IssueItem {
+  id: number
+  title: string
+  description: string | null
+  product_name: string | null
+  issue_type: string
+  location: string | null
+  region: string | null
+  status: string
+  created_at: string
+  updated_at: string
+  author_name: string
 }
