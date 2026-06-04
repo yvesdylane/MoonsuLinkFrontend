@@ -317,6 +317,29 @@ export const api = {
   deleteProductPrice: (id: number) =>
     request<{ status: string; message: string }>(`/api/admin/product-prices/${id}`, { method: 'DELETE' }),
 
+  getInterests: (params?: {
+    page?: number
+    limit?: number
+    status?: string
+    listing_id?: number
+    user_id?: string
+  }) => {
+    const qs = new URLSearchParams()
+    if (params?.page) qs.set('page', String(params.page))
+    if (params?.limit) qs.set('limit', String(params.limit))
+    if (params?.status) qs.set('status', params.status)
+    if (params?.listing_id) qs.set('listing_id', String(params.listing_id))
+    if (params?.user_id) qs.set('user_id', params.user_id)
+    const q = qs.toString()
+    return request<{
+      status: string
+      data: { total: number; page: number; limit: number; total_pages: number; interests: InterestItem[] }
+    }>(`/api/admin/interests${q ? '?' + q : ''}`)
+  },
+
+  getInterest: (id: number) =>
+    request<{ status: string; data: { interest: InterestItem } }>(`/api/admin/interests/${id}`),
+
   createAlert: (data: {
     title: string
     description?: string
@@ -449,4 +472,20 @@ export interface ProductPriceItem {
   updated_at: string
   product_name: string
   product_type: string
+}
+
+export interface InterestItem {
+  id: number
+  listing_id: number
+  user_id: string
+  interested_quantity: number | null
+  message: string | null
+  status: string
+  created_at: string
+  updated_at: string
+  product_name: string
+  buyer_name: string
+  buyer_phone: string
+  seller_name: string
+  seller_phone: string
 }
