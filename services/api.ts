@@ -182,6 +182,19 @@ export const api = {
       method: 'PATCH',
       body: JSON.stringify(data),
     }),
+
+  getPendingVerifications: () =>
+    request<{ status: string; data: VerificationItem[] }>('/api/admin/verifications/pending'),
+
+  approveVerification: (userId: string) =>
+    request<{ status: string; message: string }>(`/api/admin/verifications/${userId}/approve`, {
+      method: 'POST',
+    }),
+
+  rejectVerification: (userId: string) =>
+    request<{ status: string; message: string }>(`/api/admin/verifications/${userId}/reject`, {
+      method: 'POST',
+    }),
 }
 
 export interface ListingItem {
@@ -233,4 +246,22 @@ export interface IssueItem {
   created_at: string
   updated_at: string
   author_name: string
+}
+
+export interface VerificationItem {
+  id: string
+  user_id: string | null
+  name: string
+  phone: string
+  whatsapp_number: string | null
+  telegram_number: string | null
+  telegram_id: string | null
+  whatsapp_chat_id: string | null
+  role: string
+  region: string | null
+  verified: string
+  pic_folder: string | null
+  created_at: string
+  selfie_url: string | null
+  id_url: string | null
 }
