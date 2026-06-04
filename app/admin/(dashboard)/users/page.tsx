@@ -36,6 +36,15 @@ function RoleBadge({ value }: { value: string }) {
   )
 }
 
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <p className="text-xs text-zinc-400 dark:text-zinc-500 mb-0.5">{label}</p>
+      <p className="text-sm text-zinc-800 dark:text-zinc-200">{children}</p>
+    </div>
+  )
+}
+
 export default function UsersPage() {
   const [users, setUsers] = useState<UserListItem[]>([])
   const [total, setTotal] = useState(0)
@@ -53,6 +62,7 @@ export default function UsersPage() {
   const [saving, setSaving] = useState(false)
   const [successMsg, setSuccessMsg] = useState('')
 
+  const [viewUser, setViewUser] = useState<UserListItem | null>(null)
   const [editUser, setEditUser] = useState<UserListItem | null>(null)
   const [editForm, setEditForm] = useState({ name: '', role: '', verified: '', region: '' })
 
@@ -89,6 +99,15 @@ export default function UsersPage() {
   }
 
   const hasFilters = search || role || verified || region
+
+  const openView = (user: UserListItem) => {
+    setViewUser(user)
+    setSuccessMsg('')
+  }
+
+  const closeView = () => {
+    setViewUser(null)
+  }
 
   const openEdit = (user: UserListItem) => {
     setEditUser(user)
@@ -157,7 +176,7 @@ export default function UsersPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') applyFilters() }}
-              placeholder="Name, phone, email..."
+              placeholder="Name, WhatsApp, Telegram..."
               className="w-full rounded-xl border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-primary px-3 py-2 text-sm text-zinc-900 dark:text-white placeholder-zinc-400 transition focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
             />
           </div>
@@ -246,12 +265,12 @@ export default function UsersPage() {
               <thead>
                 <tr className="border-b border-zinc-100 dark:border-zinc-700 bg-zinc-50 dark:bg-primary-dark">
                   <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Name</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 hidden sm:table-cell">Phone</th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 hidden sm:table-cell">WhatsApp</th>
                   <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Role</th>
                   <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 hidden md:table-cell">Region</th>
                   <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Verified</th>
                   <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 hidden lg:table-cell">Created</th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Action</th>
+                  <th className="text-right px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-100 dark:divide-zinc-700">
@@ -261,18 +280,28 @@ export default function UsersPage() {
                       <span className="font-medium text-primary dark:text-white">{u.name}</span>
                       {u.email && <span className="block text-xs text-zinc-400 dark:text-zinc-500 truncate max-w-[200px]">{u.email}</span>}
                     </td>
-                    <td className="px-4 py-3 text-zinc-600 dark:text-zinc-400 hidden sm:table-cell font-mono text-xs">{u.phone}</td>
+                    <td className="px-4 py-3 text-zinc-600 dark:text-zinc-400 hidden sm:table-cell font-mono text-xs">
+                      {u.whatsapp_number ?? <span className="text-zinc-300 dark:text-zinc-600">—</span>}
+                    </td>
                     <td className="px-4 py-3"><RoleBadge value={u.role} /></td>
                     <td className="px-4 py-3 text-zinc-600 dark:text-zinc-400 hidden md:table-cell text-xs">{u.region}</td>
                     <td className="px-4 py-3"><VerifiedBadge value={u.verified} /></td>
                     <td className="px-4 py-3 text-zinc-500 dark:text-zinc-400 hidden lg:table-cell text-xs">{new Date(u.created_at).toLocaleDateString()}</td>
                     <td className="px-4 py-3 text-right">
-                      <button
-                        onClick={() => openEdit(u)}
-                        className="rounded-lg border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-primary px-3 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 transition hover:bg-zinc-50 dark:hover:bg-primary"
-                      >
-                        Edit
-                      </button>
+                      <div className="flex gap-1.5 justify-end">
+                        <button
+                          onClick={() => openView(u)}
+                          className="rounded-lg border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-primary px-3 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 transition hover:bg-zinc-50 dark:hover:bg-primary"
+                        >
+                          View
+                        </button>
+                        <button
+                          onClick={() => openEdit(u)}
+                          className="rounded-lg border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-primary px-3 py-1.5 text-xs font-medium text-accent-dark dark:text-accent transition hover:bg-accent/5 dark:hover:bg-accent/10"
+                        >
+                          Edit
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -307,6 +336,97 @@ export default function UsersPage() {
         )}
       </div>
 
+      {/* View detail modal */}
+      {viewUser && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/50" onClick={closeView} />
+          <div className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-primary-light p-6 shadow-xl">
+            <div className="flex items-center justify-between mb-5">
+              <div>
+                <h2 className="text-lg font-semibold text-primary dark:text-white">User Details</h2>
+                <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-0.5">{viewUser.name}</p>
+              </div>
+              <button onClick={closeView} className="rounded-lg p-1.5 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-primary transition">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Identity */}
+            <div className="mb-5">
+              <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-3">Identity</p>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+                <Field label="ID">{viewUser.id}</Field>
+                <Field label="Legacy ID">{viewUser.user_id ?? <span className="text-zinc-300 dark:text-zinc-600">—</span>}</Field>
+                <Field label="Name">{viewUser.name}</Field>
+                <Field label="Language">{viewUser.lang}</Field>
+                <Field label="Role"><RoleBadge value={viewUser.role} /></Field>
+                <Field label="Verified"><VerifiedBadge value={viewUser.verified} /></Field>
+                <Field label="Region">{viewUser.region}</Field>
+              </div>
+            </div>
+
+            <hr className="border-zinc-100 dark:border-zinc-700 mb-5" />
+
+            {/* Contact */}
+            <div className="mb-5">
+              <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-3">Contact</p>
+              <div className="space-y-3">
+                <Field label="WhatsApp Number">{viewUser.whatsapp_number ?? <span className="text-zinc-300 dark:text-zinc-600">—</span>}</Field>
+                <Field label="WhatsApp Chat ID">{viewUser.whatsapp_chat_id ?? <span className="text-zinc-300 dark:text-zinc-600">—</span>}</Field>
+                <Field label="Telegram ID">{viewUser.telegram_id ?? <span className="text-zinc-300 dark:text-zinc-600">—</span>}</Field>
+                <Field label="Telegram Number">{viewUser.telegram_number ?? <span className="text-zinc-300 dark:text-zinc-600">—</span>}</Field>
+                <Field label="Email">{viewUser.email ?? <span className="text-zinc-300 dark:text-zinc-600">—</span>}</Field>
+                <Field label="Phone (not actively used)">{viewUser.phone || <span className="text-zinc-300 dark:text-zinc-600">—</span>}</Field>
+              </div>
+            </div>
+
+            <hr className="border-zinc-100 dark:border-zinc-700 mb-5" />
+
+            {/* Verification */}
+            <div className="mb-5">
+              <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-3">Verification</p>
+              <div className="space-y-3">
+                <div>
+                  <p className="text-xs text-zinc-400 dark:text-zinc-500 mb-0.5">Pic Folder</p>
+                  <p className={`text-sm font-mono ${viewUser.pic_folder ? 'text-accent-dark dark:text-accent' : 'text-zinc-300 dark:text-zinc-600'}`}>
+                    {viewUser.pic_folder ?? '—'}
+                  </p>
+                  {viewUser.pic_folder && (
+                    <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1">
+                      Check this folder for uploaded selfie &amp; ID photos
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <hr className="border-zinc-100 dark:border-zinc-700 mb-5" />
+
+            {/* System */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-3">System</p>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+                <Field label="Linking Code">{viewUser.linking_code ?? <span className="text-zinc-300 dark:text-zinc-600">—</span>}</Field>
+                <Field label="Code Expires">{viewUser.code_expire_at ? new Date(viewUser.code_expire_at).toLocaleString() : <span className="text-zinc-300 dark:text-zinc-600">—</span>}</Field>
+                <Field label="Created">{new Date(viewUser.created_at).toLocaleString()}</Field>
+                <Field label="Updated">{new Date(viewUser.updated_at).toLocaleString()}</Field>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end">
+              <button
+                onClick={closeView}
+                className="rounded-xl border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-primary-light px-4 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-400 transition hover:bg-zinc-50 dark:hover:bg-primary"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Edit modal */}
       {editUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -316,11 +436,10 @@ export default function UsersPage() {
               Edit User
             </h2>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-5 truncate">
-              {editUser.name} · {editUser.phone}
+              {editUser.name}
             </p>
 
             <div className="space-y-4">
-              {/* Name */}
               <div>
                 <label className="mb-1 block text-xs font-medium text-zinc-500 dark:text-zinc-400">Name</label>
                 <input
@@ -330,7 +449,6 @@ export default function UsersPage() {
                 />
               </div>
 
-              {/* Role */}
               <div>
                 <label className="mb-1 block text-xs font-medium text-zinc-500 dark:text-zinc-400">Role</label>
                 <select
@@ -342,7 +460,6 @@ export default function UsersPage() {
                 </select>
               </div>
 
-              {/* Verified */}
               <div>
                 <label className="mb-1 block text-xs font-medium text-zinc-500 dark:text-zinc-400">Verified</label>
                 <select
@@ -354,7 +471,6 @@ export default function UsersPage() {
                 </select>
               </div>
 
-              {/* Region */}
               <div>
                 <label className="mb-1 block text-xs font-medium text-zinc-500 dark:text-zinc-400">Region</label>
                 <select
@@ -364,15 +480,6 @@ export default function UsersPage() {
                 >
                   {REGIONS.map((r) => <option key={r} value={r}>{r}</option>)}
                 </select>
-              </div>
-
-              {/* Read-only info */}
-              <div className="rounded-xl bg-zinc-50 dark:bg-primary-dark p-3 text-xs text-zinc-500 dark:text-zinc-400 space-y-1">
-                <p>ID: <span className="font-mono text-zinc-700 dark:text-zinc-300">{editUser.id}</span></p>
-                <p>Phone: <span className="text-zinc-700 dark:text-zinc-300">{editUser.phone}</span></p>
-                {editUser.email && <p>Email: <span className="text-zinc-700 dark:text-zinc-300">{editUser.email}</span></p>}
-                <p>Language: <span className="text-zinc-700 dark:text-zinc-300">{editUser.lang}</span></p>
-                <p>Created: <span className="text-zinc-700 dark:text-zinc-300">{new Date(editUser.created_at).toLocaleString()}</span></p>
               </div>
             </div>
 

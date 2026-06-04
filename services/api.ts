@@ -44,6 +44,7 @@ export interface Stats {
 
 export interface UserListItem {
   id: string
+  user_id: string | null
   name: string
   phone: string
   email: string | null
@@ -52,9 +53,12 @@ export interface UserListItem {
   verified: string
   lang: string
   whatsapp_number: string | null
+  whatsapp_chat_id: string | null
   telegram_number: string | null
   telegram_id: string | null
   pic_folder: string | null
+  linking_code: string | null
+  code_expire_at: string | null
   created_at: string
   updated_at: string
 }
