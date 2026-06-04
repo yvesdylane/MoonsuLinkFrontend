@@ -266,6 +266,31 @@ export const api = {
   deleteAdvice: (id: number) =>
     request<{ status: string; message: string }>(`/api/admin/advice/${id}`, { method: 'DELETE' }),
 
+  getProducts: (params?: { type?: string }) => {
+    const qs = new URLSearchParams()
+    if (params?.type) qs.set('type', params.type)
+    const q = qs.toString()
+    return request<{ status: string; data: { total: number; products: ProductItem[] } }>(`/api/admin/products${q ? '?' + q : ''}`)
+  },
+
+  getProduct: (id: number) =>
+    request<{ status: string; data: { product: ProductItem } }>(`/api/admin/products/${id}`),
+
+  createProduct: (data: { name: string; type?: string; default_measurement?: string }) =>
+    request<{ status: string; message: string; data: { product: ProductItem } }>('/api/admin/products', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  updateProduct: (id: number, data: { name?: string; type?: string; default_measurement?: string }) =>
+    request<{ status: string; message: string; data: { product: ProductItem } }>(`/api/admin/products/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
+
+  deleteProduct: (id: number) =>
+    request<{ status: string; message: string }>(`/api/admin/products/${id}`, { method: 'DELETE' }),
+
   createAlert: (data: {
     title: string
     description?: string
@@ -374,6 +399,15 @@ export interface AdviceItem {
   issue_type: string | null
   is_verified: boolean
   upvotes: number
+  created_at: string
+  updated_at: string
+}
+
+export interface ProductItem {
+  id: number
+  name: string
+  type: string
+  default_measurement: string
   created_at: string
   updated_at: string
 }
