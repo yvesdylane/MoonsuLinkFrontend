@@ -19,6 +19,10 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 export default function LocationsPage() {
   const [items, setItems] = useState<LocationItem[]>([])
+  const [total, setTotal] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const [page, setPage] = useState(1)
+  const [limit] = useState(20)
   const [townFilter, setTownFilter] = useState('')
   const [regionFilter, setRegionFilter] = useState('')
 
@@ -42,20 +46,24 @@ export default function LocationsPage() {
     setError('')
     try {
       const res = await api.getLocations({
+        page, limit,
         town: townFilter || undefined,
         region: regionFilter || undefined,
       })
-      const list = Array.isArray(res.data) ? res.data : []
-      setItems(list)
+      const d = res.data
+      setItems(d.locations ?? [])
+      setTotal(d.total)
+      setTotalPages(d.total_pages)
     } catch (err) {
       if (err instanceof Error && err.message === 'Session expired') return
       setError(err instanceof Error ? err.message : 'Failed to load locations')
     } finally {
       setLoading(false)
     }
-  }, [townFilter, regionFilter])
+  }, [page, limit, townFilter, regionFilter])
 
   useEffect(() => { loadItems() }, [loadItems]) // eslint-disable-line
+  useEffect(() => { setPage(1) }, [townFilter, regionFilter]) // eslint-disable-line
 
   const resetForm = () => {
     setFormTown('')
@@ -201,6 +209,15 @@ export default function LocationsPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+        )}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between border-t border-zinc-100 dark:border-zinc-700 px-4 py-3">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">Page {page} of {totalPages} ({total} total)</p>
+            <div className="flex gap-2">
+              <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page <= 1} className="rounded-xl border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-primary-light px-3 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 transition hover:bg-zinc-50 dark:hover:bg-primary disabled:cursor-not-allowed disabled:opacity-40">← Prev</button>
+              <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page >= totalPages} className="rounded-xl border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-primary-light px-3 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 transition hover:bg-zinc-50 dark:hover:bg-primary disabled:cursor-not-allowed disabled:opacity-40">Next →</button>
+            </div>
           </div>
         )}
       </div>

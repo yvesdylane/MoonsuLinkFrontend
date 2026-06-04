@@ -22,6 +22,9 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 export default function ProductPricesPage() {
   const [items, setItems] = useState<ProductPriceItem[]>([])
   const [total, setTotal] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const [page, setPage] = useState(1)
+  const [limit] = useState(20)
   const [products, setProducts] = useState<ProductItem[]>([])
 
   const [productFilter, setProductFilter] = useState('')
@@ -51,34 +54,32 @@ export default function ProductPricesPage() {
     setError('')
     try {
       const res = await api.getProductPrices({
+        page, limit,
         product_id: productFilter ? Number(productFilter) : undefined,
         region: regionFilter || undefined,
       })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const d: any = res.data
-      const list: ProductPriceItem[] = Array.isArray(d) ? d : (d.product_prices ?? [])
-      setItems(list)
-      setTotal(d.total ?? list.length)
+      setItems(res.data.product_prices ?? [])
+      setTotal(res.data.total)
+      setTotalPages(res.data.total_pages)
     } catch (err) {
       if (err instanceof Error && err.message === 'Session expired') return
       setError(err instanceof Error ? err.message : 'Failed to load prices')
     } finally {
       setLoading(false)
     }
-  }, [productFilter, regionFilter])
+  }, [page, limit, productFilter, regionFilter])
 
   const loadProducts = useCallback(async () => {
     try {
-      const res = await api.getProducts()
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const d: any = res.data
-      setProducts(Array.isArray(d) ? d : (d.products ?? []))
+      const res = await api.getProducts({ page: 1, limit: 100 })
+      setProducts(res.data.products ?? [])
     } catch { /* silent */ }
   }, [])
 
   useEffect(() => {
     loadItems() // eslint-disable-line react-hooks/set-state-in-effect
   }, [loadItems])
+  useEffect(() => { setPage(1) }, [productFilter, regionFilter]) // eslint-disable-line
 
   useEffect(() => {
     loadProducts() // eslint-disable-line react-hooks/set-state-in-effect
@@ -257,6 +258,15 @@ export default function ProductPricesPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+        )}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between border-t border-zinc-100 dark:border-zinc-700 px-4 py-3">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">Page {page} of {totalPages} ({total} total)</p>
+            <div className="flex gap-2">
+              <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page <= 1} className="rounded-xl border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-primary-light px-3 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 transition hover:bg-zinc-50 dark:hover:bg-primary disabled:cursor-not-allowed disabled:opacity-40">← Prev</button>
+              <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page >= totalPages} className="rounded-xl border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-primary-light px-3 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 transition hover:bg-zinc-50 dark:hover:bg-primary disabled:cursor-not-allowed disabled:opacity-40">Next →</button>
+            </div>
           </div>
         )}
       </div>

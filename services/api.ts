@@ -266,11 +266,13 @@ export const api = {
   deleteAdvice: (id: number) =>
     request<{ status: string; message: string }>(`/api/admin/advice/${id}`, { method: 'DELETE' }),
 
-  getProducts: (params?: { type?: string }) => {
+  getProducts: (params?: { page?: number; limit?: number; type?: string }) => {
     const qs = new URLSearchParams()
+    if (params?.page) qs.set('page', String(params.page))
+    if (params?.limit) qs.set('limit', String(params.limit))
     if (params?.type) qs.set('type', params.type)
     const q = qs.toString()
-    return request<{ status: string; data: { total: number; products: ProductItem[] } }>(`/api/admin/products${q ? '?' + q : ''}`)
+    return request<{ status: string; data: { total: number; page: number; limit: number; total_pages: number; products: ProductItem[] } }>(`/api/admin/products${q ? '?' + q : ''}`)
   },
 
   getProduct: (id: number) =>
@@ -291,12 +293,14 @@ export const api = {
   deleteProduct: (id: number) =>
     request<{ status: string; message: string }>(`/api/admin/products/${id}`, { method: 'DELETE' }),
 
-  getProductPrices: (params?: { product_id?: number; region?: string }) => {
+  getProductPrices: (params?: { page?: number; limit?: number; product_id?: number; region?: string }) => {
     const qs = new URLSearchParams()
+    if (params?.page) qs.set('page', String(params.page))
+    if (params?.limit) qs.set('limit', String(params.limit))
     if (params?.product_id) qs.set('product_id', String(params.product_id))
     if (params?.region) qs.set('region', params.region)
     const q = qs.toString()
-    return request<{ status: string; data: { total: number; product_prices: ProductPriceItem[] } }>(`/api/admin/product-prices${q ? '?' + q : ''}`)
+    return request<{ status: string; data: { total: number; page: number; limit: number; total_pages: number; product_prices: ProductPriceItem[] } }>(`/api/admin/product-prices${q ? '?' + q : ''}`)
   },
 
   getProductPrice: (id: number) =>
@@ -317,12 +321,14 @@ export const api = {
   deleteProductPrice: (id: number) =>
     request<{ status: string; message: string }>(`/api/admin/product-prices/${id}`, { method: 'DELETE' }),
 
-  getLocations: (params?: { town?: string; region?: string }) => {
+  getLocations: (params?: { page?: number; limit?: number; town?: string; region?: string }) => {
     const qs = new URLSearchParams()
+    if (params?.page) qs.set('page', String(params.page))
+    if (params?.limit) qs.set('limit', String(params.limit))
     if (params?.town) qs.set('town', params.town)
     if (params?.region) qs.set('region', params.region)
     const q = qs.toString()
-    return request<{ status: string; data: LocationItem[] }>(`/api/admin/locations${q ? '?' + q : ''}`)
+    return request<{ status: string; data: { total: number; page: number; limit: number; total_pages: number; locations: LocationItem[] } }>(`/api/admin/locations${q ? '?' + q : ''}`)
   },
 
   getLocation: (id: number) =>
@@ -359,7 +365,7 @@ export const api = {
     const q = qs.toString()
     return request<{
       status: string
-      data: InterestItem[]
+      data: { total: number; page: number; limit: number; total_pages: number; interests: InterestItem[] }
     }>(`/api/admin/interests${q ? '?' + q : ''}`)
   },
 
