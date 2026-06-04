@@ -317,6 +317,32 @@ export const api = {
   deleteProductPrice: (id: number) =>
     request<{ status: string; message: string }>(`/api/admin/product-prices/${id}`, { method: 'DELETE' }),
 
+  getLocations: (params?: { town?: string; region?: string }) => {
+    const qs = new URLSearchParams()
+    if (params?.town) qs.set('town', params.town)
+    if (params?.region) qs.set('region', params.region)
+    const q = qs.toString()
+    return request<{ status: string; data: LocationItem[] }>(`/api/admin/locations${q ? '?' + q : ''}`)
+  },
+
+  getLocation: (id: number) =>
+    request<{ status: string; data: { location: LocationItem } }>(`/api/admin/locations/${id}`),
+
+  createLocation: (data: { town: string; department?: string; region: string }) =>
+    request<{ status: string; message: string; data: { location: LocationItem } }>('/api/admin/locations', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  updateLocation: (id: number, data: { town?: string; department?: string; region?: string }) =>
+    request<{ status: string; message: string; data: { location: LocationItem } }>(`/api/admin/locations/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
+
+  deleteLocation: (id: number) =>
+    request<{ status: string; message: string }>(`/api/admin/locations/${id}`, { method: 'DELETE' }),
+
   getInterests: (params?: {
     page?: number
     limit?: number
@@ -333,7 +359,7 @@ export const api = {
     const q = qs.toString()
     return request<{
       status: string
-      data: { total: number; page: number; limit: number; total_pages: number; interests: InterestItem[] }
+      data: InterestItem[]
     }>(`/api/admin/interests${q ? '?' + q : ''}`)
   },
 
@@ -472,6 +498,14 @@ export interface ProductPriceItem {
   updated_at: string
   product_name: string
   product_type: string
+}
+
+export interface LocationItem {
+  id: number
+  town: string
+  department: string | null
+  region: string
+  created_at: string
 }
 
 export interface InterestItem {

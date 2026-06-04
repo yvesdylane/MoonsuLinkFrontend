@@ -48,10 +48,10 @@ export default function InterestsPage() {
         page, limit,
         status: statusFilter || undefined,
       })
-      const d = res.data
-      setItems(d.interests ?? [])
-      setTotal(d.total ?? 0)
-      setTotalPages(d.total_pages ?? 1)
+      const list = Array.isArray(res.data) ? res.data : []
+      setItems(list)
+      setTotal(list.length)
+      setTotalPages(Math.ceil(list.length / limit) || 1)
     } catch (err) {
       if (err instanceof Error && err.message === 'Session expired') return
       setError(err instanceof Error ? err.message : 'Failed to load interests')
