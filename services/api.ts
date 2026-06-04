@@ -214,6 +214,58 @@ export const api = {
     }>(`/api/admin/alerts${q ? '?' + q : ''}`)
   },
 
+  getAdvice: (params?: {
+    page?: number
+    limit?: number
+    product_name?: string
+    issue_type?: string
+    is_verified?: boolean
+  }) => {
+    const qs = new URLSearchParams()
+    if (params?.page) qs.set('page', String(params.page))
+    if (params?.limit) qs.set('limit', String(params.limit))
+    if (params?.product_name) qs.set('product_name', params.product_name)
+    if (params?.issue_type) qs.set('issue_type', params.issue_type)
+    if (params?.is_verified !== undefined) qs.set('is_verified', String(params.is_verified))
+    const q = qs.toString()
+    return request<{
+      status: string
+      data: { total: number; page: number; limit: number; total_pages: number; advice: AdviceItem[] }
+    }>(`/api/admin/advice${q ? '?' + q : ''}`)
+  },
+
+  getAdviceItem: (id: number) =>
+    request<{ status: string; data: AdviceItem }>(`/api/admin/advice/${id}`),
+
+  createAdvice: (data: {
+    title: string
+    content: string
+    issue_id?: number | null
+    product_name?: string
+    issue_type?: string
+    is_verified?: boolean
+  }) =>
+    request<{ status: string; message: string; data: { advice: AdviceItem } }>('/api/admin/advice', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  updateAdvice: (id: number, data: Partial<{
+    title: string
+    content: string
+    issue_id: number | null
+    product_name: string
+    issue_type: string
+    is_verified: boolean
+  }>) =>
+    request<{ status: string; message: string; data: { advice: AdviceItem } }>(`/api/admin/advice/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
+
+  deleteAdvice: (id: number) =>
+    request<{ status: string; message: string }>(`/api/admin/advice/${id}`, { method: 'DELETE' }),
+
   createAlert: (data: {
     title: string
     description?: string
@@ -309,4 +361,19 @@ export interface AlertItem {
   created_by_name: string
   created_at: string
   expires_at: string
+}
+
+export interface AdviceItem {
+  id: number
+  issue_id: number | null
+  title: string
+  content: string
+  author_id: string
+  author_name: string
+  product_name: string | null
+  issue_type: string | null
+  is_verified: boolean
+  upvotes: number
+  created_at: string
+  updated_at: string
 }
