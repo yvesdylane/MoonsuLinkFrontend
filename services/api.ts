@@ -366,6 +366,45 @@ export const api = {
   getInterest: (id: number) =>
     request<{ status: string; data: { interest: InterestItem } }>(`/api/admin/interests/${id}`),
 
+  getMessageLogs: (params?: { page?: number; limit?: number; platform?: string; intent?: string; user_id?: string }) => {
+    const qs = new URLSearchParams()
+    if (params?.page) qs.set('page', String(params.page))
+    if (params?.limit) qs.set('limit', String(params.limit))
+    if (params?.platform) qs.set('platform', params.platform)
+    if (params?.intent) qs.set('intent', params.intent)
+    if (params?.user_id) qs.set('user_id', params.user_id)
+    const q = qs.toString()
+    return request<{ status: string; data: { total: number; page: number; limit: number; total_pages: number; logs: MessageLogItem[] } }>(`/api/admin/logs/messages${q ? '?' + q : ''}`)
+  },
+
+  getMessageLog: (id: number) =>
+    request<{ status: string; data: MessageLogItem }>(`/api/admin/logs/messages/${id}`),
+
+  getAssistantLogs: (params?: { page?: number; limit?: number; intent?: string; method?: string }) => {
+    const qs = new URLSearchParams()
+    if (params?.page) qs.set('page', String(params.page))
+    if (params?.limit) qs.set('limit', String(params.limit))
+    if (params?.intent) qs.set('intent', params.intent)
+    if (params?.method) qs.set('method', params.method)
+    const q = qs.toString()
+    return request<{ status: string; data: { total: number; page: number; limit: number; total_pages: number; logs: AssistantLogItem[] } }>(`/api/admin/logs/assistant${q ? '?' + q : ''}`)
+  },
+
+  getAssistantLog: (id: number) =>
+    request<{ status: string; data: AssistantLogItem }>(`/api/admin/logs/assistant/${id}`),
+
+  getConversationStates: (params?: { page?: number; limit?: number; state?: string }) => {
+    const qs = new URLSearchParams()
+    if (params?.page) qs.set('page', String(params.page))
+    if (params?.limit) qs.set('limit', String(params.limit))
+    if (params?.state) qs.set('state', params.state)
+    const q = qs.toString()
+    return request<{ status: string; data: { total: number; page: number; limit: number; total_pages: number; states: ConversationStateItem[] } }>(`/api/admin/logs/states${q ? '?' + q : ''}`)
+  },
+
+  getConversationState: (id: number) =>
+    request<{ status: string; data: ConversationStateItem }>(`/api/admin/logs/states/${id}`),
+
   createAlert: (data: {
     title: string
     description?: string
@@ -522,4 +561,37 @@ export interface InterestItem {
   buyer_phone: string
   seller_name: string
   seller_phone: string
+}
+
+export interface MessageLogItem {
+  id: number
+  user_id: string | null
+  platform: string
+  incoming_message: string
+  outgoing_reply: string | null
+  intent: string | null
+  created_at: string
+  user_name?: string | null
+  user_phone?: string | null
+}
+
+export interface AssistantLogItem {
+  id: number
+  input_text: string
+  intent: string | null
+  confidence: number | null
+  method: string | null
+  entities: Record<string, unknown> | null
+  timestamp: string
+}
+
+export interface ConversationStateItem {
+  id: number
+  user_id: string
+  state: string
+  context: Record<string, unknown> | null
+  created_at: string
+  updated_at: string
+  user_name?: string | null
+  user_phone?: string | null
 }
