@@ -134,6 +134,28 @@ export const api = {
 
   deleteListing: (id: number) =>
     request<{ status: string; message: string }>(`/api/admin/listings/${id}`, { method: 'DELETE' }),
+
+  getReports: (params?: {
+    page?: number
+    limit?: number
+    status?: string
+  }) => {
+    const qs = new URLSearchParams()
+    if (params?.page) qs.set('page', String(params.page))
+    if (params?.limit) qs.set('limit', String(params.limit))
+    if (params?.status) qs.set('status', params.status)
+    const q = qs.toString()
+    return request<{
+      status: string
+      data: { total: number; page: number; limit: number; total_pages: number; reports: ReportItem[] }
+    }>(`/api/admin/reports${q ? '?' + q : ''}`)
+  },
+
+  updateReport: (id: number, data: { status: string }) =>
+    request<{ status: string; message: string }>(`/api/admin/reports/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
 }
 
 export interface ListingItem {
@@ -156,4 +178,19 @@ export interface ListingItem {
   seller_verified: string
   town: string | null
   location_region: string | null
+}
+
+export interface ReportItem {
+  id: number
+  user_id: string
+  report_type: string
+  title: string
+  description: string | null
+  product_name: string | null
+  location: string | null
+  region: string | null
+  status: string
+  created_at: string
+  updated_at: string
+  user_name: string
 }
