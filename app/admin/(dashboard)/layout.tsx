@@ -4,6 +4,11 @@ import { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { ThemeToggle } from '@/components/ThemeToggle'
 
+function getCookie(name: string): string | null {
+  const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`))
+  return match ? decodeURIComponent(match[2]) : null
+}
+
 const navLinks = [
   {
     href: '/admin/dashboard',
@@ -91,18 +96,21 @@ export default function DashboardLayout({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token) {
+    const userCookie = getCookie('user')
+    if (!userCookie) {
       router.push('/admin/login')
       return
     }
-    const raw = localStorage.getItem('user')
-    if (raw) setUser(JSON.parse(raw)) // eslint-disable-line react-hooks/set-state-in-effect
+    try {
+      setUser(JSON.parse(userCookie)) // eslint-disable-line react-hooks/set-state-in-effect
+    } catch {
+      router.push('/admin/login')
+    }
   }, [router])
 
   const logout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
+    document.cookie = 'token=; max-age=0; path=/'
+    document.cookie = 'user=; max-age=0; path=/'
     router.push('/admin/login')
   }
 

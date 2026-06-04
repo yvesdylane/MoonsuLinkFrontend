@@ -1,13 +1,16 @@
-const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080'
-
-async function request<T>(path: string, options: RequestInit = {}, token?: string): Promise<T> {
+async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...(options.headers as Record<string, string>),
   }
-  if (token) headers['Authorization'] = `Bearer ${token}`
 
-  const res = await fetch(`${BASE}${path}`, { ...options, headers })
+  const res = await fetch(path, { ...options, headers })
+
+  if (res.status === 401) {
+    document.cookie = 'token=; max-age=0; path=/'
+    document.cookie = 'user=; max-age=0; path=/'
+    throw new Error('Session expired')
+  }
 
   if (!res.ok) {
     const body = await res.json().catch(() => ({ error: res.statusText }))
@@ -47,11 +50,10 @@ export const api = {
     }),
 
   verify: (phone: string, code: string) =>
-    request<{ status: string; token: string; user: User }>('/api/admin/verify', {
+    request<{ status: string; user: User }>('/api/admin/verify', {
       method: 'POST',
       body: JSON.stringify({ phone, code }),
     }),
 
-  getStats: (token: string) =>
-    request<{ status: string; data: Stats }>('/api/admin/stats', {}, token),
+  getStats: () => request<{ status: string; data: Stats }>('/api/admin/stats'),
 }

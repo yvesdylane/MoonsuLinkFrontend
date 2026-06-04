@@ -21,23 +21,19 @@ export default function DashboardPage() {
   const [lastUpdated, setLastUpdated] = useState('')
 
   const loadStats = useCallback(async () => {
-    const token = localStorage.getItem('token')
-    if (!token) {
-      router.push('/admin/login')
-      return
-    }
     setLoading(true)
     setError('')
     try {
-      const res = await api.getStats(token)
+      const res = await api.getStats()
       setStats(res.data)
       setLastUpdated(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }))
     } catch (err) {
+      if (err instanceof Error && err.message === 'Session expired') return
       setError(err instanceof Error ? err.message : 'Failed to load stats')
     } finally {
       setLoading(false)
     }
-  }, [router])
+  }, [])
 
   useEffect(() => {
     loadStats() // eslint-disable-line react-hooks/set-state-in-effect

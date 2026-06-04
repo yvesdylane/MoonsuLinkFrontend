@@ -28,10 +28,17 @@ Order does not matter yet (no typecheck script).
 - **No middleware, API routes, or `loading.tsx`** currently — all boilerplate
 
 ## Backend (separate service)
-- API docs in **`API_REFERENCE.md`** — FastAPI at `http://localhost:8000`
+- API docs in **`API_REFERENCE.md`** — FastAPI at `http://localhost:8080`
 - **PostgreSQL** — UUID PKs (`gen_random_uuid()`), custom enum types (region, role, verified as VARCHAR), `updated_at` via trigger
 - Admin auth: 6-digit OTP → JWT (24h), bearer token required
 - Notable: `verified` column is VARCHAR(`'true'`/`'false'`/`'pending'`), NOT boolean
+
+## Auth Architecture (Proxy)
+- **Browser NEVER talks to FastAPI directly** — all `/api/admin/*` calls go to a Next.js route handler (`app/api/admin/[[...slug]]/route.ts`) which proxies them to the FastAPI backend.
+- **Token storage**: The proxy sets the JWT as an **HttpOnly cookie** (`token`) on `/verify` success — invisible to client-side JS. A non-HttpOnly `user` cookie (name/role only) is also set for session awareness.
+- **401 handling**: `services/api.ts` catches 401 responses, clears cookies, and redirects to login.
+- **Env vars**: `BACKEND_API_URL` (in `.env`) is server-side only — controls where the proxy forwards requests.
+- `services/api.ts` always uses relative URLs (`/api/admin/...`) — no `Authorization` header, no `token` param.
 
 ## Reference Code
 - **`reference from past project with react/`** — old React SPA (`services/api.ts` has a `request` wrapper + `api` object pattern to follow when building the API client for the current app). Pages there (Alerts, Listings, Prices, Users, Login) map loosely to the `API_REFERENCE.md` endpoints.
