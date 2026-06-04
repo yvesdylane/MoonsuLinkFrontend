@@ -108,4 +108,52 @@ export const api = {
       method: 'PATCH',
       body: JSON.stringify(data),
     }),
+
+  getListings: (params?: {
+    page?: number
+    limit?: number
+    product_name?: string
+    region?: string
+    verified_only?: boolean
+  }) => {
+    const qs = new URLSearchParams()
+    if (params?.page) qs.set('page', String(params.page))
+    if (params?.limit) qs.set('limit', String(params.limit))
+    if (params?.product_name) qs.set('product_name', params.product_name)
+    if (params?.region) qs.set('region', params.region)
+    if (params?.verified_only) qs.set('verified_only', 'true')
+    const q = qs.toString()
+    return request<{
+      status: string
+      data: { total: number; page: number; limit: number; total_pages: number; listings: ListingItem[] }
+    }>(`/api/admin/listings${q ? '?' + q : ''}`)
+  },
+
+  getListing: (id: number) =>
+    request<{ status: string; data: { listing: ListingItem } }>(`/api/admin/listings/${id}`),
+
+  deleteListing: (id: number) =>
+    request<{ status: string; message: string }>(`/api/admin/listings/${id}`, { method: 'DELETE' }),
+}
+
+export interface ListingItem {
+  id: number
+  user_id: string
+  product_id: number
+  quantity: string
+  measurement: string
+  price: number
+  description: string | null
+  location_id: number | null
+  origin: string
+  image_url: string | null
+  expires_at: string
+  created_at: string
+  updated_at: string
+  product_name: string
+  seller_name: string
+  seller_phone: string
+  seller_verified: string
+  town: string | null
+  location_region: string | null
 }
