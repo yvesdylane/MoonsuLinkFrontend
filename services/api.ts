@@ -291,6 +291,32 @@ export const api = {
   deleteProduct: (id: number) =>
     request<{ status: string; message: string }>(`/api/admin/products/${id}`, { method: 'DELETE' }),
 
+  getProductPrices: (params?: { product_id?: number; region?: string }) => {
+    const qs = new URLSearchParams()
+    if (params?.product_id) qs.set('product_id', String(params.product_id))
+    if (params?.region) qs.set('region', params.region)
+    const q = qs.toString()
+    return request<{ status: string; data: { total: number; product_prices: ProductPriceItem[] } }>(`/api/admin/product-prices${q ? '?' + q : ''}`)
+  },
+
+  getProductPrice: (id: number) =>
+    request<{ status: string; data: { product_price: ProductPriceItem } }>(`/api/admin/product-prices/${id}`),
+
+  createProductPrice: (data: { product_id: number; region: string; min_price: number; max_price: number; avg_price: number }) =>
+    request<{ status: string; message: string; data: { product_price: ProductPriceItem } }>('/api/admin/product-prices', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  updateProductPrice: (id: number, data: { min_price?: number; max_price?: number; avg_price?: number }) =>
+    request<{ status: string; message: string; data: { product_price: ProductPriceItem } }>(`/api/admin/product-prices/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
+
+  deleteProductPrice: (id: number) =>
+    request<{ status: string; message: string }>(`/api/admin/product-prices/${id}`, { method: 'DELETE' }),
+
   createAlert: (data: {
     title: string
     description?: string
@@ -410,4 +436,17 @@ export interface ProductItem {
   default_measurement: string
   created_at: string
   updated_at: string
+}
+
+export interface ProductPriceItem {
+  id: number
+  product_id: number
+  region: string
+  min_price: number
+  max_price: number
+  avg_price: number
+  created_at: string
+  updated_at: string
+  product_name: string
+  product_type: string
 }

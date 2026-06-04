@@ -56,6 +56,16 @@ const navLinks = [
     ),
   },
   {
+    href: '/admin/product-prices',
+    label: 'Price List',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+        <line x1="12" y1="1" x2="12" y2="23" />
+        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+      </svg>
+    ),
+  },
+  {
     href: '/admin/verifications',
     label: 'Verifications',
     icon: (
