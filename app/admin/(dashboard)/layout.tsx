@@ -182,22 +182,22 @@ export default function DashboardLayout({
 
   const sidebarContent = (
     <>
-      <div className="px-6 py-7 border-b border-zinc-200 dark:border-zinc-700">
+      <div className="border-b border-zinc-200 px-6 py-7 dark:border-zinc-700">
         <div className="flex items-center gap-3">
-          <div className="h-11 w-11 rounded-2xl bg-accent/20 flex items-center justify-center text-accent-dark dark:text-accent font-bold text-lg shadow-sm">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/20 text-lg font-bold text-accent-dark dark:text-accent">
             M
           </div>
           <div>
             <p className="text-lg font-semibold text-primary dark:text-white">MoonsuLink</p>
-            <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">Admin dashboard</p>
+            <p className="mt-0.5 text-sm text-zinc-500 dark:text-zinc-400">Admin dashboard</p>
           </div>
         </div>
-        <div className="mt-5 rounded-2xl bg-zinc-50 dark:bg-primary-dark p-4 text-sm text-zinc-600 dark:text-zinc-400">
+        <div className="mt-5 rounded-xl border border-zinc-200 bg-zinc-50 p-4 text-sm text-zinc-600 dark:border-zinc-700 dark:bg-primary-dark dark:text-zinc-400">
           Signed in as <span className="font-medium text-primary dark:text-white">{user.name}</span>
         </div>
       </div>
 
-      <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto scrollbar-none">
+      <nav className="flex-1 space-y-1 overflow-y-auto px-4 py-6 scrollbar-none">
         {navLinks.map((link) => {
           const isActive = pathname === link.href || pathname.startsWith(link.href + '/')
           return (
@@ -209,30 +209,30 @@ export default function DashboardLayout({
                 setMobileMenuOpen(false)
                 router.push(link.href)
               }}
-              className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-sm transition ${
+              className={`flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition active:scale-[0.98] ${
                 isActive
-                  ? 'bg-accent/10 text-accent-dark dark:text-accent shadow-sm'
-                  : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-primary hover:text-primary dark:hover:text-white'
+                  ? 'bg-accent/10 font-medium text-accent-dark dark:text-accent'
+                  : 'text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-primary dark:hover:text-white'
               }`}
             >
-              <span className={`inline-flex h-10 w-10 items-center justify-center rounded-2xl ${
+              <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
                 isActive
                   ? 'bg-accent/20 text-accent-dark dark:text-accent'
-                  : 'bg-zinc-100 dark:bg-primary text-zinc-500 dark:text-zinc-400'
+                  : 'bg-zinc-100 text-zinc-500 dark:bg-primary dark:text-zinc-400'
               }`}>
                 {link.icon}
               </span>
-              <span className="flex-1">{link.label}</span>
+              <span>{link.label}</span>
             </a>
           )
         })}
       </nav>
 
-      <div className="px-6 py-6 border-t border-zinc-200 dark:border-zinc-700 flex items-center gap-2">
+      <div className="flex items-center gap-2 border-t border-zinc-200 px-6 py-5 dark:border-zinc-700">
         <ThemeToggle />
         <button
           onClick={logout}
-          className="flex-1 inline-flex items-center justify-center rounded-2xl border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-primary-light px-4 py-3 text-sm font-medium text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-primary"
+          className="flex-1 rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 active:scale-[0.98] dark:border-zinc-700 dark:bg-primary-light dark:text-zinc-300 dark:hover:bg-primary"
         >
           Sign out
         </button>
@@ -241,31 +241,28 @@ export default function DashboardLayout({
   )
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-primary-dark text-zinc-900 dark:text-white">
-      <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-r from-accent/10 via-accent/5 to-primary/5 pointer-events-none" />
-
+    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-primary-dark dark:text-white">
       {/* Mobile header */}
-      <div className="sticky top-0 z-40 bg-white dark:bg-primary-light border-b border-zinc-200 dark:border-zinc-700 lg:hidden">
+      <div className="sticky top-0 z-40 border-b border-zinc-200 bg-white dark:border-zinc-700 dark:bg-primary-light lg:hidden">
         <div className="flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-accent/20 flex items-center justify-center text-accent-dark dark:text-accent font-bold text-sm">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent/20 text-sm font-bold text-accent-dark dark:text-accent">
               M
             </div>
             <span className="text-sm font-semibold text-primary dark:text-white">MoonsuLink</span>
           </div>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="inline-flex items-center justify-center rounded-lg p-2 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-primary"
+            className="rounded-lg p-2 text-zinc-600 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-primary"
+            aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? (
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {mobileMenuOpen ? (
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              ) : (
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
+              )}
+            </svg>
           </button>
         </div>
       </div>
@@ -274,22 +271,20 @@ export default function DashboardLayout({
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="fixed inset-0 bg-black/50" onClick={() => setMobileMenuOpen(false)} />
-          <div className="fixed inset-y-0 left-0 w-72 bg-white dark:bg-primary-light border-r border-zinc-200 dark:border-zinc-700 flex flex-col">
+          <div className="fixed inset-y-0 left-0 flex w-72 flex-col border-r border-zinc-200 bg-white dark:border-zinc-700 dark:bg-primary-light">
             {sidebarContent}
           </div>
         </div>
       )}
 
       {/* Desktop sidebar */}
-      <aside className="hidden lg:flex lg:w-72 lg:flex-col lg:fixed lg:inset-y-0 bg-white dark:bg-primary-light border-r border-zinc-200 dark:border-zinc-700">
+      <aside className="fixed inset-y-0 hidden w-72 flex-col border-r border-zinc-200 bg-white dark:border-zinc-700 dark:bg-primary-light lg:flex">
         {sidebarContent}
       </aside>
 
       {/* Main content */}
       <main className="lg:pl-72">
-        <div className="p-4 sm:p-6 lg:p-8">
-          {children}
-        </div>
+        <div className="p-4 sm:p-6 lg:p-8">{children}</div>
       </main>
     </div>
   )

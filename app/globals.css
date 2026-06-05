@@ -22,4 +22,5 @@
 
 body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  @apply bg-zinc-50 text-zinc-900 dark:bg-primary-dark dark:text-white;
 }

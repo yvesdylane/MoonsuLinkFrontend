@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/lib/ThemeProvider";
 import "./globals.css";
@@ -17,6 +17,10 @@ export const metadata: Metadata = {
   title: "Moonso Link — Digital Farmer Assistant & Marketplace",
   description:
     "Your Digital Farmer Assistant & Marketplace for Cameroon. Connect farmers, buyers, and agricultural value chain actors across Cameroon via WhatsApp and Telegram.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#162531",
 };
 
 export default function RootLayout({
