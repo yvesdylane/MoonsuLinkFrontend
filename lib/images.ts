@@ -4,6 +4,7 @@ import donfackDylane from '@/public/images/donfack_dylane.jpg'
 import kanjoElkamira from '@/public/images/kanjo_elkamira.jpg'
 import macBrenda from '@/public/images/mac_brenda.jpg'
 import sakaMercy from '@/public/images/sakah_mercy.jpg'
+import telegramDemo from '@/public/images/telegram_demo.jpg'
 import teamGroupPhoto from '@/public/images/team_group_photo.jpg'
 
 export {
@@ -13,5 +14,6 @@ export {
   kanjoElkamira,
   macBrenda,
   sakaMercy,
+  telegramDemo,
   teamGroupPhoto,
 }

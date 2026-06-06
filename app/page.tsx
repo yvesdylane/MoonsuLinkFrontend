@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { Navbar } from '@/components/Navbar'
 import { initScrollReveal } from '@/lib/scrollReveal'
 import { initParallax } from '@/lib/parallax'
-import { whatsappHeroImg } from '@/lib/images'
+import { whatsappHeroImg, telegramDemo } from '@/lib/images'
 import { TeamSection } from '@/components/TeamSection'
 import { teamMembers } from '@/lib/teamData'
 
@@ -25,47 +25,6 @@ const fadeUp = {
     y: 0,
     transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
   },
-}
-
-function TelegramMockup() {
-  return (
-    <div className="animate-float mx-auto w-full max-w-[320px] overflow-hidden rounded-3xl border-4 border-zinc-800 bg-white shadow-tinted dark:border-zinc-600" style={{ animationDelay: '-2s' }}>
-      <div className="flex items-center gap-3 bg-[#2AABEE] px-4 py-3">
-        <svg aria-hidden="true" viewBox="0 0 24 24" fill="white" className="h-5 w-5">
-          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
-        </svg>
-        <div className="flex-1">
-              <p className="text-sm font-semibold text-white">MoonsuLinkBot</p>
-          <p className="text-[11px] text-white/70">bot</p>
-        </div>
-      </div>
-      <div className="space-y-3 bg-white p-4">
-        <div className="flex justify-end">
-          <div className="max-w-[85%] rounded-2xl bg-[#2AABEE] px-3.5 py-2.5">
-            <p className="text-[13px] leading-relaxed text-white">Check market prices for corn</p>
-            <p className="mt-1 text-right text-[10px] text-white/60">15:30</p>
-          </div>
-        </div>
-        <div className="flex">
-          <div className="max-w-[85%] rounded-2xl bg-[#F0F0F0] px-3.5 py-2.5">
-            <p className="text-[13px] leading-relaxed text-zinc-800">Current corn prices in Cameroon:</p>
-            <div className="mt-2 space-y-1 border-l-2 border-[#2AABEE] pl-3">
-               <p className="text-[12px] font-medium text-zinc-800 tabular-nums">Centre: 150–250 XAF/kg</p>
-               <p className="text-[12px] font-medium text-zinc-800 tabular-nums">Littoral: 180–280 XAF/kg</p>
-               <p className="text-[12px] font-medium text-zinc-800 tabular-nums">West: 130–220 XAF/kg</p>
-            </div>
-            <p className="mt-1 text-right text-[10px] text-zinc-400">15:30</p>
-          </div>
-        </div>
-      </div>
-      <div className="flex items-center gap-2 border-t border-zinc-200 bg-white px-3 py-2">
-        <div className="flex-1 rounded-xl bg-[#F0F0F0] px-4 py-2 text-xs text-zinc-400">Message</div>
-        <svg aria-hidden="true" viewBox="0 0 24 24" fill="#2AABEE" className="h-6 w-6">
-          <path d="M1.101 21.757L23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z" />
-        </svg>
-      </div>
-    </div>
-  )
 }
 
 function DoubleBezelCard({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement> & { children: React.ReactNode }) {
@@ -180,15 +139,14 @@ export default function HomePage() {
               variants={fadeUp}
               className="hidden lg:flex lg:items-center lg:justify-center"
             >
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-tinted">
-                <Image
-                  src={whatsappHeroImg}
-                  alt=""
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
+              <Image
+                src={whatsappHeroImg}
+                alt=""
+                width={400}
+                height={600}
+                priority
+                className="rounded-3xl shadow-tinted"
+              />
             </motion.div>
           </div>
         </div>
@@ -494,8 +452,15 @@ export default function HomePage() {
                 </a>
               </div>
             </div>
-            <div data-reveal data-delay="300ms" data-reveal-scale data-parallax="0.1">
-              <TelegramMockup />
+            <div data-reveal data-delay="300ms" data-reveal-scale data-parallax="0.1" className="flex items-center justify-center">
+              <Image
+                src={telegramDemo}
+                alt="Telegram demo conversation"
+                width={telegramDemo.width}
+                height={telegramDemo.height}
+                className="animate-float h-auto w-full max-w-[320px] rounded-3xl shadow-tinted"
+                style={{ animationDelay: '-2s' }}
+              />
             </div>
           </div>
         </div>
