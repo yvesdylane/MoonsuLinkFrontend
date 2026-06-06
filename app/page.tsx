@@ -6,13 +6,9 @@ import Image from 'next/image'
 import { Navbar } from '@/components/Navbar'
 import { initScrollReveal } from '@/lib/scrollReveal'
 import { initParallax } from '@/lib/parallax'
-import {
-  whatsappHeroImg,
-  donfackDylane,
-  kanjoElkamira,
-  macBrenda,
-  sakaMercy,
-} from '@/lib/images'
+import { whatsappHeroImg } from '@/lib/images'
+import { TeamSection } from '@/components/TeamSection'
+import { teamMembers } from '@/lib/teamData'
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -29,54 +25,6 @@ const fadeUp = {
     y: 0,
     transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
   },
-}
-
-function WhatsAppMockup() {
-  return (
-    <div className="animate-float mx-auto w-full max-w-[320px] overflow-hidden rounded-3xl border-4 border-zinc-800 bg-white shadow-tinted dark:border-zinc-600">
-      <div className="flex items-center gap-3 bg-[#075e54] px-4 py-3">
-        <svg aria-hidden="true" viewBox="0 0 24 24" fill="white" className="h-5 w-5">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
-        </svg>
-        <div className="flex-1">
-          <p className="text-sm font-semibold text-white">Moonsu Link</p>
-          <p className="text-[11px] text-white/70">online</p>
-        </div>
-      </div>
-      <div className="space-y-3 bg-[#e5ddd5] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPjxyZWN0IHdpZHRoPSI1IiBoZWlnaHQ9IjUiIGZpbGw9IiNlNWRkZDUiLz48cGF0aCBkPSJNMCA1TDUgMFpNNiA0TDQgNlpNLTEsMUwxLC0xWiIgc3Ryb2tlPSIjYzJhYjkyIiBzdHJva2Utd2lkdGg9IjEuMjUiLz48L3N2Zz4=')] p-4 dark:opacity-90">
-        <div className="flex">
-          <div className="max-w-[85%] rounded-br-2xl rounded-tr-2xl rounded-tl-sm bg-white px-3.5 py-2.5 shadow-sm">
-            <p className="text-[13px] leading-relaxed text-zinc-800 tabular-nums">I want to sell 50kg of corn at 250 XAF per kg</p>
-            <p className="mt-1 text-right text-[10px] text-zinc-400">14:02</p>
-          </div>
-        </div>
-        <div className="flex justify-end">
-          <div className="max-w-[85%] rounded-bl-2xl rounded-tl-2xl rounded-tr-sm bg-[#dcf8c6] px-3.5 py-2.5 shadow-sm">
-            <p className="text-[13px] leading-relaxed text-zinc-800">✅ Listed! Your corn is now visible to buyers searching near you.</p>
-            <p className="mt-1 text-right text-[10px] text-zinc-400">14:02</p>
-          </div>
-        </div>
-        <div className="flex">
-          <div className="max-w-[85%] rounded-br-2xl rounded-tr-2xl rounded-tl-sm bg-white px-3.5 py-2.5 shadow-sm">
-            <p className="text-[13px] leading-relaxed text-zinc-800">Find fresh tomatoes in Douala</p>
-            <p className="mt-1 text-right text-[10px] text-zinc-400">14:05</p>
-          </div>
-        </div>
-        <div className="flex justify-end">
-          <div className="max-w-[85%] rounded-bl-2xl rounded-tl-2xl rounded-tr-sm bg-[#dcf8c6] px-3.5 py-2.5 shadow-sm">
-            <p className="text-[13px] leading-relaxed text-zinc-800">3 farmers found near Douala</p>
-            <p className="mt-1 text-right text-[10px] text-zinc-400">14:05</p>
-          </div>
-        </div>
-      </div>
-      <div className="flex items-center gap-2 border-t border-zinc-200 bg-[#f0f0f0] px-3 py-2">
-        <div className="flex-1 rounded-2xl bg-white px-4 py-2 text-xs text-zinc-400 shadow-inner">Type a message...</div>
-        <svg aria-hidden="true" viewBox="0 0 24 24" fill="#075e54" className="h-7 w-7">
-          <path d="M1.101 21.757L23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z" />
-        </svg>
-      </div>
-    </div>
-  )
 }
 
 function TelegramMockup() {
@@ -624,51 +572,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Team ── */}
-      <section id="team" className="bg-zinc-50 py-24 dark:bg-primary-dark">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div data-reveal>
-            <span className="flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.2em] text-accent-dark dark:text-accent">
-              <span className="h-3 w-1 rounded-full bg-accent" />
-              Team
-            </span>
-            <h2 className="mt-4 text-balance text-3xl font-bold tracking-tight text-primary dark:text-white sm:text-4xl">
-              Built by CODE::DEV
-            </h2>
-            <p className="mt-4 max-w-[65ch] text-balance text-base leading-relaxed text-zinc-500 dark:text-zinc-400">
-              A Cameroonian team using technology to solve real problems for farmers and communities.
-            </p>
-          </div>
-
-          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { name: 'DONFACK TSOPFACT YVES DYLANE', role: 'Lead Developer', image: donfackDylane },
-              { name: 'KANJO ELKAMIRA NDI (SAMIRA)', role: 'Developer', image: kanjoElkamira },
-              { name: 'ENOW EWEH MAC BRENDA', role: 'Developer', image: macBrenda },
-              { name: 'SACKA MERCY', role: 'Developer', image: sakaMercy },
-            ].map((member, i) => (
-              <DoubleBezelCard
-                key={member.name}
-                data-reveal
-                data-delay={`${i * 80}ms`}
-                className="border border-zinc-200 bg-white p-6 text-center backdrop-blur-lg hover:-translate-y-1 dark:border-white/10 dark:bg-white/5"
-                style={{ transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)' }}
-              >
-                <div className="relative mx-auto h-16 w-16 overflow-hidden rounded-full bg-accent/10">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <h3 className="mt-4 text-sm font-semibold text-primary dark:text-white">{member.name}</h3>
-                <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{member.role}</p>
-              </DoubleBezelCard>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TeamSection members={teamMembers} />
 
       {/* ── Footer ── */}
       <footer className="border-t border-zinc-200 bg-white py-12 dark:border-white/10 dark:bg-primary">
