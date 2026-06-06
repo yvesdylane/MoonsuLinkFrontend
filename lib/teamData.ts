@@ -3,6 +3,7 @@ import {
   kanjoElkamira,
   macBrenda,
   sakaMercy,
+  chestlyAce,
 } from '@/lib/images'
 import type { TeamMember } from '@/components/TeamCard'
 
@@ -19,8 +20,8 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: 'kanjo-elkamira',
-    name: 'KANJO ELKAMIRA NDI (SAMIRA)',
-    role: 'Developer',
+    name: 'KANJO ELKAMIRA NDI',
+    role: 'QA Engineer',
     image: kanjoElkamira,
     linkedin: '#',
     github: '#',
@@ -40,8 +41,18 @@ export const teamMembers: TeamMember[] = [
   {
     id: 'sacka-mercy',
     name: 'SACKA MERCY',
-    role: 'Developer',
+    role: 'Product Designer',
     image: sakaMercy,
+    linkedin: '#',
+    github: '#',
+    twitter: '#',
+    instagram: '#',
+  },
+  {
+    id: 'chestly-amahndong',
+    name: 'CHESTLY AMAHNDONG',
+    role: 'Developer',
+    image: chestlyAce,
     linkedin: '#',
     github: '#',
     twitter: '#',
