@@ -320,7 +320,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Features ── */}
-      <section className="border-t border-zinc-100 bg-zinc-50 py-24 dark:border-zinc-700 dark:bg-primary-dark">
+      <section id="features" className="border-t border-zinc-100 bg-zinc-50 py-24 dark:border-zinc-700 dark:bg-primary-dark">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div data-reveal>
             <h2 className="text-balance text-3xl font-bold tracking-tight text-primary dark:text-white sm:text-4xl">
@@ -518,7 +518,7 @@ export default function HomePage() {
                 data-reveal
                 data-delay={`${i * 80}ms`}
                 data-reveal-scale
-                className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-lg transition hover:-translate-y-1 hover:scale-[1.01] dark:bg-white/5"
+                className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-lg hover:-translate-y-1 hover:scale-[1.01] dark:bg-white/5"
                 style={{ transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)' }}
               >
                 <span className={`mb-3 flex h-3 w-3 rounded-full ${cat.dot}`} />
@@ -584,7 +584,7 @@ export default function HomePage() {
                 key={member.name}
                 data-reveal
                 data-delay={`${i * 80}ms`}
-                className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-lg transition hover:-translate-y-1 dark:bg-white/5"
+                className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-lg hover:-translate-y-1 dark:bg-white/5"
                 style={{ transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)' }}
               >
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-accent/10 text-sm font-bold text-accent-dark dark:text-accent">
