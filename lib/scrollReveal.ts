@@ -13,7 +13,7 @@ export function initScrollReveal(
       if (entry.isIntersecting) {
         const el = entry.target as HTMLElement
         const delay = el.dataset.delay || '0ms'
-        el.style.animationDelay = delay
+        el.style.transitionDelay = delay
         el.classList.add('revealed')
         observer.unobserve(el)
       }

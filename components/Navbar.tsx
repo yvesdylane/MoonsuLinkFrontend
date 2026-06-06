@@ -26,14 +26,13 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        visible ? 'translate-y-0' : '-translate-y-full'
-      } ${scrolled ? 'bg-white/80 backdrop-blur-md dark:bg-primary-dark/80' : 'bg-transparent'}`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${visible ? 'translate-y-0' : '-translate-y-full'
+        } ${scrolled ? 'bg-white/80 backdrop-blur-md dark:bg-primary-dark/80' : 'bg-transparent'}`}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-1.5">
+        <Link href="/" className="flex items-center gap-1.5 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50">
           <span className="text-lg font-bold text-primary dark:text-white">
-            Moonso
+            MoonSun
           </span>
           <span className="text-lg font-bold text-accent">Link</span>
         </Link>
@@ -44,7 +43,7 @@ export function Navbar() {
               key={label}
               href={`#${label.toLowerCase().replace(/\s+/g, '-')}`}
               onClick={() => setMobileOpen(false)}
-              className="text-sm font-medium text-zinc-600 transition-all duration-200 hover:text-primary relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full dark:text-zinc-400 dark:hover:text-white"
+              className="text-sm font-medium text-zinc-600 transition-all duration-200 hover:text-primary relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded-sm dark:text-zinc-400 dark:hover:text-white"
             >
               {label}
             </a>
@@ -55,16 +54,16 @@ export function Navbar() {
           <ThemeToggle />
           <Link
             href="/admin/login"
-            className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-light active:scale-[0.97]"
+            className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-light active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
           >
             Admin
           </Link>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="flex items-center justify-center rounded-lg p-2 text-zinc-600 transition hover:bg-zinc-100 md:hidden dark:text-zinc-400 dark:hover:bg-primary"
+            className="flex items-center justify-center rounded-lg p-2 text-zinc-600 transition hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 md:hidden dark:text-zinc-400 dark:hover:bg-primary"
             aria-label="Toggle menu"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
               {mobileOpen ? (
                 <path d="M6 18L18 6M6 6l12 12" />
               ) : (
@@ -84,7 +83,7 @@ export function Navbar() {
                 key={label}
                 href={`#${label.toLowerCase().replace(/\s+/g, '-')}`}
                 onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-primary"
+                className="rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 transition hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 dark:text-zinc-400 dark:hover:bg-primary"
               >
                 {label}
               </a>
