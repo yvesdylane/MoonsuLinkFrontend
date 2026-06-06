@@ -2,9 +2,17 @@
 
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { Navbar } from '@/components/Navbar'
 import { initScrollReveal } from '@/lib/scrollReveal'
 import { initParallax } from '@/lib/parallax'
+import {
+  whatsappHeroImg,
+  donfackDylane,
+  kanjoElkamira,
+  macBrenda,
+  sakaMercy,
+} from '@/lib/images'
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -222,9 +230,17 @@ export default function HomePage() {
             </motion.div>
             <motion.div
               variants={fadeUp}
-              className="hidden lg:block"
+              className="hidden lg:flex lg:items-center lg:justify-center"
             >
-              <WhatsAppMockup />
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-tinted">
+                <Image
+                  src={whatsappHeroImg}
+                  alt=""
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
             </motion.div>
           </div>
         </div>
@@ -626,10 +642,10 @@ export default function HomePage() {
 
           <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { name: 'DONFACK TSOPFACT YVES DYLANE', role: 'Lead Developer' },
-              { name: 'KANJO ELKAMIRA NDI (SAMIRA)', role: 'Developer' },
-              { name: 'ENOW EWEH MAC BRENDA', role: 'Developer' },
-              { name: 'SACKA MERCY', role: 'Developer' },
+              { name: 'DONFACK TSOPFACT YVES DYLANE', role: 'Lead Developer', image: donfackDylane },
+              { name: 'KANJO ELKAMIRA NDI (SAMIRA)', role: 'Developer', image: kanjoElkamira },
+              { name: 'ENOW EWEH MAC BRENDA', role: 'Developer', image: macBrenda },
+              { name: 'SACKA MERCY', role: 'Developer', image: sakaMercy },
             ].map((member, i) => (
               <DoubleBezelCard
                 key={member.name}
@@ -638,8 +654,13 @@ export default function HomePage() {
                 className="border border-zinc-200 bg-white p-6 text-center backdrop-blur-lg hover:-translate-y-1 dark:border-white/10 dark:bg-white/5"
                 style={{ transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)' }}
               >
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-accent/10 text-sm font-bold text-accent-dark dark:text-accent">
-                  {member.name.split(' ').map((w) => w[0]).slice(0, 2).join('')}
+                <div className="relative mx-auto h-16 w-16 overflow-hidden rounded-full bg-accent/10">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
                 <h3 className="mt-4 text-sm font-semibold text-primary dark:text-white">{member.name}</h3>
                 <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{member.role}</p>
