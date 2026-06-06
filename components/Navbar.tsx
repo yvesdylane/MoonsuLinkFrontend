@@ -31,8 +31,8 @@ export function Navbar() {
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-1.5 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50">
-          <span className="text-lg font-bold text-primary dark:text-white">
-            MoonSun
+          <span className={`text-lg font-bold ${scrolled ? 'text-primary' : 'text-white'} dark:text-white`}>
+            Moonsu
           </span>
           <span className="text-lg font-bold text-accent">Link</span>
         </Link>
@@ -52,12 +52,6 @@ export function Navbar() {
 
         <div className="flex items-center gap-3">
           <ThemeToggle />
-          <Link
-            href="/admin/login"
-            className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-light active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
-          >
-            Admin
-          </Link>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="flex items-center justify-center rounded-lg p-2 text-zinc-600 transition hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 md:hidden dark:text-zinc-400 dark:hover:bg-primary"
