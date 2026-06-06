@@ -44,7 +44,7 @@ export function Navbar() {
               key={label}
               href={`#${label.toLowerCase().replace(/\s+/g, '-')}`}
               onClick={() => setMobileOpen(false)}
-              className="text-sm font-medium text-zinc-600 transition hover:text-primary dark:text-zinc-400 dark:hover:text-white"
+              className="text-sm font-medium text-zinc-600 transition-all duration-200 hover:text-primary relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full dark:text-zinc-400 dark:hover:text-white"
             >
               {label}
             </a>
