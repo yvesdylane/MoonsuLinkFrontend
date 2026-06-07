@@ -534,7 +534,6 @@ export default function HomePage() {
         data-reveal 
         data-delay="300ms" 
         data-reveal-scale 
-        data-parallax="0.1" 
         className="flex items-center justify-center"
       >
         <Image
