@@ -13,10 +13,8 @@ export const teamMembers: TeamMember[] = [
     name: 'DONFACK TSOPFACT YVES DYLANE',
     role: 'Lead Developer',
     image: donfackDylane,
-    linkedin: '#',
-    github: '#',
-    twitter: '#',
-    instagram: '#',
+    linkedin: 'https://www.linkedin.com/in/donfack-tsopfack-377a6a271',
+    github: 'https://github.com/yvesdylane',
   },
   {
     id: 'kanjo-elkamira',
@@ -25,8 +23,10 @@ export const teamMembers: TeamMember[] = [
     image: kanjoElkamira,
     linkedin: 'https://www.linkedin.com/in/kanjo-elkamira-ndi-a767b7229',
     github: 'https://github.com/Kanjo-Elkamira-Ndi',
+    facebook: 'https://www.facebook.com/Kanjo.Elkamira.Ndi',
     twitter: 'https://x.com/kanjo_elkamira',
     instagram: 'https://www.instagram.com/kanjo_elkamira_ndi?igsh=bGtsaWRtM2IwNnVz',
+
   },
   {
     id: 'mac-brenda',
